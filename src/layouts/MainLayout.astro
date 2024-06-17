@@ -1,0 +1,14 @@
+---
+import Head from "../components/Head.astro";
+
+const title = "Chordly";
+const description = "Create and save chord charts";
+---
+
+<!doctype html>
+<html lang="en" class="bg-slate-100">
+    <Head title={title} description={description} />
+    <body>
+        <slot />
+    </body>
+</html>

@@ -1,0 +1,35 @@
+---
+export const partial = true;
+import { parseDoc } from "../../utils/index";
+
+const query = Astro.url.searchParams.get("chart");
+const result = parseDoc(query);
+---
+
+<div class="leading-[12px] text-[12px]">
+    <h2 class="text-2xl font-bold leading-[24px]">{result.title}</h2>
+    <p class="text-[8px]">{result.artist}</p>
+    <p class="font-bold">
+        Tempo - {result.tempo}
+    </p>
+    <br />
+    {
+        result?.sections?.map((s) => (
+            <div class="pb-3">
+                <p class="pb-1 font-bold uppercase">{s.name}</p>
+                <div>
+                    {s.lines?.map((lines) => (
+                        <div class="flex">
+                            {lines.map((p) => (
+                                <div class="pb-1">
+                                    <p class="h-3 font-bold">{p.chord}</p>
+                                    <p class="h-3">{p.lyric}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        ))
+    }
+</div>

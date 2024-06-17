@@ -1,0 +1,125 @@
+---
+const input = `
+{title: No Longer Slaves}
+{artist: Jonathan and Melissa Helser}
+{tempo: 74}
+
+{section: Verse 1}
+You unr[1]avel me with a melody
+You surr[4]ound me w[5]ith a s[1]ong
+Of deli[1]verance from my enemies
+'Til a[4]ll my fe[5]ars are g[1]one
+
+{section: Chorus}
+I'm no l[4]onger a s[5]lave to f[1]ear
+I a[6m]m a c[5]hild of G[1]od
+
+{section: Verse 2}
+From my m[1]other's womb
+You have chosen me
+L[4]ove has c[5]alled my n[1]ame
+I've been b[1]orn again into a family
+Your b[4]lood flows t[5]hrough my v[1]eins
+
+{section: Bridge}
+Y[6m]ou split the s[5]ea, so I could w[1]alk right t[4]hrough it
+M[6m]y fears are d[5]rowned in perfect l[1]ov[4]e
+Y[6m]ou rescued m[5]e and I will s[1]tand and s[1/3]ing
+I a[6m]m a c[5]hild of G[1]od
+`;
+---
+
+<section class="flex flex-col flex-grow items-center">
+    <form class="flex flex-col gap-4 w-full">
+        <div class="flex flex-col gap-2">
+            <label for="song-chart">Chart</label>
+            <div
+                class="overflow-hidden rounded-lg border-[1px] border-slate-300 bg-slate-50"
+            >
+                <div class="flex gap-2 py-2 px-4">
+                    <button
+                        class="p-2 rounded-full transition duration-150 group hover:bg-slate-200"
+                        type="button"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-5 stroke-slate-600 group-hover:stroke-slate-950"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z"
+                            ></path>
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.867 19.125h.008v.008h-.008v-.008Z"></path>
+                        </svg>
+                    </button>
+                    <button
+                        class="p-2 rounded-full transition duration-150 group hover:bg-slate-200"
+                        type="button"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-5 stroke-slate-600 group-hover:stroke-slate-950"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                            ></path>
+                        </svg>
+                    </button>
+
+                    <button
+                        class="p-2 rounded-full transition duration-150 group hover:bg-slate-200"
+                        type="button"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-5 stroke-slate-600 group-hover:stroke-slate-950"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+                <textarea
+                    hx-get="/partials/chart"
+                    hx-trigger="load, keyup changed delay:500ms"
+                    hx-target="#chord-sheet"
+                    tabindex="1"
+                    class="p-4 w-full font-mono"
+                    placeholder="Write text here ..."
+                    set:text={input}
+                    rows="22"
+                    id="song-chart"
+                    name="chart"
+                />
+            </div>
+        </div>
+        <button
+            class="py-2 px-6 text-green-50 bg-green-500 rounded-lg transition duration-150 hover:bg-green-400 w-fit"
+            tabindex="1"
+            type="submit">Save Changes</button
+        >
+    </form>
+</section>
+
+<!-- hx-trigger="keyup changed delay:500ms" -->
