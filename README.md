@@ -1,47 +1,50 @@
-# Astro Starter Kit: Minimal
+# Alderaan
 
-```sh
-npm create astro@latest -- --template minimal
+Alderaan is a web application for creating Chord Chart PDFs using the ChordPro format. It leverages HTMX and Astro to provide a seamless user experience. With Alderaan, musicians can easily generate and customize chord charts for their songs.
+
+## Features
+
+-   **ChordPro Format Support**: Create and edit chord charts using the popular ChordPro format.
+-   **PDF Generation**: Export your chord charts as high-quality PDFs.
+-   **Real-Time Preview**: See changes to your chord charts in real-time as you edit.
+-   **Customizable Layouts**: Customize the appearance of your chord charts to suit your preferences.
+
+## Technologies Used
+
+-   **HTMX**: Used for making dynamic HTML and enhancing user interactions.
+-   **Astro**: A modern front-end framework for building fast, static websites.
+-   **ChordPro Library**: Handles parsing and rendering of ChordPro files.
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+-   Node.js
+-   pnpm
+
+### Installation
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/your-username/alderaan.git
+    cd alderaan
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    pnpm install
+    ```
+
+### Running the App
+
+To start the development server:
+
+```bash
+pnpm dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Open your browser and navigate to http://localhost:3000 to see the app in action.
