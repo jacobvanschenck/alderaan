@@ -10,7 +10,7 @@
 		"db:push": "drizzle-kit push",
 		"db:studio": "drizzle-kit studio",
 		"dev": "next dev --turbo",
-		"lint": "next lint",
+		"lint": "biome lint --write",
 		"start": "next start"
 	},
 	"dependencies": {
@@ -33,6 +33,7 @@
 		"zod": "^3.23.3"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^1.9.3",
 		"@types/eslint": "^8.56.10",
 		"@types/node": "^20.14.10",
 		"@types/react": "^18.3.3",
