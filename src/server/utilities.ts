@@ -1,10 +1,10 @@
 import type { Song } from "./queries";
 
-export function buildSongFromContentString(input: string | undefined | null, songId: number) {
+export function buildSongFromContentString(input: string | undefined | null) {
 	if (!input) return;
 	const inputSections = input.split("\n\n");
 	const sections = [];
-	const updatedSong: Song = { songId, content: input };
+	const updatedSong: Song = { content: input };
 	for (const s of inputSections) {
 		const lines = s.split("\n");
 		let title: string | undefined;

@@ -1,5 +1,5 @@
+import ChartInputChordArea from "@/components/ChartInputChordArea";
 import { getSong } from "@/server/queries";
-import ChartInputChordArea from "./_components/ChartInputChordArea";
 
 export default async function SongPage(props: { params: { id: string } }) {
 	const idAsNumber = Number(props.params.id);
