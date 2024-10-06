@@ -18,3 +18,8 @@ CREATE TABLE IF NOT EXISTS "alderaan_songs" (
 	"created_at" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp with time zone
 );
+
+const string = `{title: No Longer Slaves}
+{artist: Jonathan and Melissa Helser}
+{key: E}
+{tempo: 74}`

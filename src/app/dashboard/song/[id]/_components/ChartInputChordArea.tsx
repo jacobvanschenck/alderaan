@@ -3,81 +3,45 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import type { Song } from "@/server/queries";
-import { type Dispatch, type SetStateAction, useCallback, useEffect, useState } from "react";
+import { type Song, insertSong } from "@/server/queries";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import { generateInput, parseChordLyricLine, parseInput } from "../_utils/utilites";
 
 export default function ChartInputChordArea(props: { song: Song }) {
-	const [input, setInput] = useState<string>(props.song?.sections?.map((s) => s?.content).join("\n\n") ?? "");
-	const [song, setSong] = useState<Song>(props.song);
-
-	const parseInput = useCallback((input: string | undefined) => {
-		if (!input) return;
-		const inputSections = input.split("\n\n");
-		const sections = [];
-		const songData: Song = {};
-		for (const s of inputSections) {
-			const lines = s.split("\n");
-			let title: string | undefined;
-			let content = "";
-			for (const line of lines) {
-				if (line[0] === "{") {
-					const { key, value } = parseDirective(line);
-					switch (key) {
-						case "title":
-							songData.title = value;
-							continue;
-						case "artist":
-							songData.artist = value;
-							continue;
-						case "tempo":
-							songData.tempo = value;
-							continue;
-						case "key":
-							songData.key = value;
-							continue;
-						case "label":
-							title = value;
-							break;
-						default:
-							break;
-					}
-				} else {
-					content += `${line}\n`;
-				}
-			}
-			if (content.trim() || title) {
-				sections.push({ title, content });
-			}
-		}
-		songData.sections = sections;
-		setSong(songData);
-	}, []);
-
-	function parseDirective(directive: string) {
-		const regex = /{(\w+):\s*([^}]+)}/;
-		const matches = directive.match(regex);
-		if (!matches) return { key: undefined, value: undefined };
-		const key = matches[1];
-		const value = matches[2];
-		if (!key || !value) return { key: undefined, value: undefined };
-		return { key, value };
-	}
+	const [input, setInput] = useState<string | undefined>(generateInput(props.song));
+	const [song, setSong] = useState<Song | undefined>(props.song);
 
 	useEffect(() => {
-		parseInput(input);
-	}, [parseInput, input]);
+		setSong(parseInput(input));
+	}, [input]);
+
 	return (
 		<div className="flex gap-4">
-			<ChartInputArea input={input} setInput={setInput} />
+			<ChartInputArea input={input} setInput={setInput} song={song} />
 			<ChordChart song={song} />
 		</div>
 	);
 }
 
-function ChartInputArea(props: { input: string | undefined; setInput: Dispatch<SetStateAction<string | undefined>> }) {
+function ChartInputArea(props: {
+	input: string | undefined;
+	setInput: Dispatch<SetStateAction<string | undefined>>;
+	song: Song | undefined;
+}) {
 	return (
 		<div className="flex-1">
-			<form className="grid gap-2 w-full">
+			<form
+				className="grid gap-2 w-full"
+				action={async () => {
+					await insertSong({
+						title: props.song?.title,
+						artist: props.song?.artist,
+						tempo: props.song?.tempo,
+						key: props.song?.key,
+						sections: props.song?.sections,
+					});
+				}}
+			>
 				<Textarea
 					rows={25}
 					name="chord-text-area"
@@ -105,42 +69,23 @@ function ChordChart(props: { song: Song | undefined }) {
 					{props.song?.sections?.map((s, i) => (
 						<div key={i}>
 							<p className="pt-6 font-semibold">{s.title}</p>
-							{s.content?.split("\n").map((l, i) => (
-								<div key={i} className="flex">
-									{l.split("[").map((split, splitIndex) => {
-										if (!split) return;
-										let pair: Array<string | undefined> = [undefined, undefined];
-										if (!split.includes("]")) {
-											pair = [
-												undefined,
-												split
-													.split("")
-													.map((char) => (char === " " ? "\xA0" : char))
-													.join(""),
-											];
-										} else {
-											let [chord, lyric, ...rest] = split.split("]");
-											if (lyric?.trim().length) {
-												lyric = lyric
-													?.split("")
-													.map((char) => (char === " " ? "\xA0" : char))
-													.join("");
-											}
-											pair = [chord, lyric];
-										}
-										return (
-											<div className="flex flex-col pt-2" key={`pair-div-${i}-group-${splitIndex}`}>
-												<p className="font-bold leading-4" key={`pair-span-1-group-${splitIndex}`}>
-													{pair[0] ?? <span>&nbsp;</span>}
+							{s.content?.split("\n").map((l, i) => {
+								const pairs = parseChordLyricLine(l);
+								return (
+									<div key={i} className="flex">
+										{pairs.map((p, index) => (
+											<div className="flex flex-col pt-2" key={`pair-div-${i}-group-${index}`}>
+												<p className="font-bold leading-4" key={`pair-span-1-group-${index}`}>
+													{p?.[0] ?? <span>&nbsp;</span>}
 												</p>
-												<p className="leading-4" key={`pair-span-2-group-${splitIndex}`}>
-													{pair[1] ?? <span>&nbsp;</span>}
+												<p className="leading-4" key={`pair-span-2-group-${index}`}>
+													{p?.[1] ?? <span>&nbsp;</span>}
 												</p>
 											</div>
-										);
-									})}
-								</div>
-							))}
+										))}
+									</div>
+								);
+							})}
 						</div>
 					))}
 				</div>
