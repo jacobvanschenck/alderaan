@@ -17,7 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 			<body>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 					<AppNav />
-					<div className="p-4">{children}</div>
+					<div className="px-4 pb-4">{children}</div>
 				</ThemeProvider>
 			</body>
 		</html>
