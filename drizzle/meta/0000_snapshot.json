@@ -1,69 +1,9 @@
 {
-  "id": "fe02e7e5-6068-4fc2-b46b-ac317e64c6ce",
+  "id": "3cf5d855-0ce7-4094-a97a-dc2edc1a0e2f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.alderaan_sections": {
-      "name": "alderaan_sections",
-      "schema": "",
-      "columns": {
-        "section_id": {
-          "name": "section_id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "song_id": {
-          "name": "song_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "title": {
-          "name": "title",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "content": {
-          "name": "content",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "lyrics": {
-          "name": "lyrics",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "order": {
-          "name": "order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "default": 0
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "public.alderaan_songs": {
       "name": "alderaan_songs",
       "schema": "",
@@ -86,15 +26,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "key": {
-          "name": "key",
+        "tempo": {
+          "name": "tempo",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": false
         },
-        "tempo": {
-          "name": "tempo",
-          "type": "varchar(256)",
+        "content": {
+          "name": "content",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },

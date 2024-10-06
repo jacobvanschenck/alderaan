@@ -5,15 +5,18 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { type Song, insertSong } from "@/server/queries";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
-import { generateInput, parseChordLyricLine, parseInput } from "../_utils/utilites";
+import { parseChordLyricLine } from "../_utils/utilites";
+import { buildSongFromContentString } from "@/server/utilities";
 
 export default function ChartInputChordArea(props: { song: Song }) {
-	const [input, setInput] = useState<string | undefined>(generateInput(props.song));
-	const [song, setSong] = useState<Song | undefined>(props.song);
+	const [input, setInput] = useState<string | undefined>(props.song.content ?? undefined);
+	const [song, setSong] = useState<Song>(props.song);
 
 	useEffect(() => {
-		setSong(parseInput(input));
-	}, [input]);
+		const parsedSong = buildSongFromContentString(input, props.song.songId);
+		if (!parsedSong) return;
+		setSong(parsedSong);
+	}, [input, props]);
 
 	return (
 		<div className="flex gap-4">
@@ -26,7 +29,7 @@ export default function ChartInputChordArea(props: { song: Song }) {
 function ChartInputArea(props: {
 	input: string | undefined;
 	setInput: Dispatch<SetStateAction<string | undefined>>;
-	song: Song | undefined;
+	song: Song;
 }) {
 	return (
 		<div className="flex-1">
@@ -34,11 +37,11 @@ function ChartInputArea(props: {
 				className="grid gap-2 w-full"
 				action={async () => {
 					await insertSong({
-						title: props.song?.title,
-						artist: props.song?.artist,
-						tempo: props.song?.tempo,
-						key: props.song?.key,
-						sections: props.song?.sections,
+						title: props.song.title,
+						artist: props.song.artist,
+						tempo: props.song.tempo,
+						content: props.input,
+						songId: props.song.songId,
 					});
 				}}
 			>
