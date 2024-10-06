@@ -9,10 +9,10 @@ export default async function Songs() {
 
 	return (
 		<div className="flex flex-wrap gap-4">
+			<AddSongCard />
 			{songs.map((song) => (
 				<SongCard key={song.songId} song={song} />
 			))}
-			<AddSongCard />
 		</div>
 	);
 }
@@ -20,7 +20,7 @@ export default async function Songs() {
 function SongCard(props: { song: SelectSong }) {
 	return (
 		<Link href={`/song/${props.song.songId}`}>
-			<Card className="transition duration-75 w-[250px] hover:border-muted-foreground">
+			<Card className="transition duration-75 w-[300px] hover:border-muted-foreground">
 				<CardHeader>
 					<CardTitle>{props.song.title}</CardTitle>
 					<CardDescription>{props.song.artist}</CardDescription>
@@ -33,7 +33,7 @@ function SongCard(props: { song: SelectSong }) {
 function AddSongCard() {
 	return (
 		<Link href="/add-song">
-			<div className="flex justify-center items-center h-full rounded-md border-2 border-dashed transition duration-75 w-[250px] hover:border-muted-foreground">
+			<div className="flex justify-center items-center h-24 rounded-md border-2 border-dashed transition duration-75 w-[300px] hover:border-muted-foreground">
 				<Plus className="stroke-muted-foreground" />
 			</div>
 		</Link>
