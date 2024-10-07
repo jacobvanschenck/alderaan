@@ -3,8 +3,9 @@
 import { db } from "@/server/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { songs } from "./db/schema";
+import { setsTable, songsTable } from "./db/schema";
 import { buildSongFromContentString } from "./utilities";
+import { asc, ilike } from "drizzle-orm";
 
 export type Song = {
 	title?: string | null;
@@ -12,7 +13,7 @@ export type Song = {
 	tempo?: string | null;
 	content?: string | null;
 	sections?: Array<SongSection>;
-	songId?: number | null;
+	songId?: string | null;
 };
 
 export type SongSection = {
@@ -21,8 +22,8 @@ export type SongSection = {
 	lyrics?: string;
 };
 
-export async function getSong(id: number) {
-	const songData = await db.query.songs.findFirst({
+export async function getSong(id: string) {
+	const songData = await db.query.songsTable.findFirst({
 		where: (model, { eq }) => eq(model.songId, id),
 	});
 
@@ -39,7 +40,7 @@ export async function insertSong(newSong: Song) {
 	if (!newSong.content) throw new Error("Song has no content");
 
 	const returning = await db
-		.insert(songs)
+		.insert(songsTable)
 		.values({
 			songId: newSong.songId ?? undefined,
 			title: newSong.title,
@@ -48,21 +49,38 @@ export async function insertSong(newSong: Song) {
 			content: newSong.content,
 		})
 		.onConflictDoUpdate({
-			target: songs.songId,
+			target: songsTable.songId,
 			set: { title: newSong.title, artist: newSong.artist, tempo: newSong.tempo, content: newSong.content },
 		})
-		.returning({ songId: songs.songId });
+		.returning({ songId: songsTable.songId });
 
 	revalidatePath("/dashboard/songs");
 	redirect("/dashboard/songs");
 }
 
 export async function getSongsList() {
-	const songsData = await db.query.songs.findMany({
-		orderBy: (fields, { asc }) => asc(fields.title),
-	});
+	const songsData = await db.select().from(songsTable).orderBy(asc(songsTable.title));
 
 	if (!songsData) throw new Error("No songs for this user");
+
+	return songsData;
+}
+
+export async function getSetsList() {
+	const setsData = await db.select().from(setsTable).orderBy(asc(setsTable.date));
+
+	if (!setsData) throw new Error("No sets for this user");
+
+	return setsData;
+}
+
+export async function filterSongs(term: string | undefined) {
+	const songsData = await db
+		.select()
+		.from(songsTable)
+		.where(ilike(songsTable.title, `%${term}%`));
+
+	if (!songsData) throw new Error("No songs found");
 
 	return songsData;
 }

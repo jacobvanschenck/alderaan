@@ -1,0 +1,1 @@
+ALTER TABLE "alderaan_sets" ALTER COLUMN "set_id" SET DEFAULT gen_random_uuid();

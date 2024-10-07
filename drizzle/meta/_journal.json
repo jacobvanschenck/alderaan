@@ -5,8 +5,22 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1728175332634,
-      "tag": "0000_complete_starfox",
+      "when": 1728303563264,
+      "tag": "0000_safe_gideon",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1728303746428,
+      "tag": "0001_yellow_lady_deathstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1728304168199,
+      "tag": "0002_demonic_anita_blake",
       "breakpoints": true
     }
   ]

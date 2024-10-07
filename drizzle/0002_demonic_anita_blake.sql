@@ -1,0 +1,1 @@
+ALTER TABLE "alderaan_song_sets" ADD CONSTRAINT "alderaan_song_sets_set_id_song_id_pk" PRIMARY KEY("set_id","song_id");

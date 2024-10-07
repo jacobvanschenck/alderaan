@@ -30,7 +30,7 @@ function ChartInputArea(props: {
 	input: string | undefined;
 	setInput: Dispatch<SetStateAction<string | undefined>>;
 	song: Song | undefined;
-	songId: number | undefined | null;
+	songId: string | undefined | null;
 }) {
 	return (
 		<div className="flex-1">

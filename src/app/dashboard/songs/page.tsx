@@ -2,14 +2,14 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import type { SelectSong } from "@/server/db/schema";
 import { getSongsList } from "@/server/queries";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import AddNewCard from "@/components/AddNewCard";
 
 export default async function Songs() {
 	const songs = await getSongsList();
 
 	return (
 		<div className="flex flex-wrap gap-4">
-			<AddSongCard />
+			<AddNewCard link="/add-song" />
 			{songs.map((song) => (
 				<SongCard key={song.songId} song={song} />
 			))}
@@ -26,16 +26,6 @@ function SongCard(props: { song: SelectSong }) {
 					<CardDescription>{props.song.artist}</CardDescription>
 				</CardHeader>
 			</Card>
-		</Link>
-	);
-}
-
-function AddSongCard() {
-	return (
-		<Link href="/add-song">
-			<div className="flex justify-center items-center h-24 rounded-md border-2 border-dashed transition duration-75 w-[300px] hover:border-muted-foreground">
-				<Plus className="stroke-muted-foreground" />
-			</div>
 		</Link>
 	);
 }
