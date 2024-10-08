@@ -1,11 +1,8 @@
 import { getSongsList } from "@/server/queries";
-import AddSong from "./_components/AddSong";
+import { SetFormAddSong } from "./_components/SetFormAddSong";
 
 export default async function AddSet() {
 	const songs = await getSongsList();
-	return (
-		<div>
-			<AddSong songs={songs} />
-		</div>
-	);
+
+	return <SetFormAddSong songs={songs} />;
 }

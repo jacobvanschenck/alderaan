@@ -10,7 +10,7 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-export default function AddSong(props: { songs: Array<SelectSong> }) {
+export default function AddSong(props: { songs: Array<SelectSong>; onSelect: (song: SelectSong) => void }) {
 	const [term, setTerm] = useState("");
 	const [filteredSongs, setFilteredSongs] = useState<Array<SelectSong>>(props.songs);
 
@@ -41,7 +41,12 @@ export default function AddSong(props: { songs: Array<SelectSong> }) {
 				<ScrollArea className="flex-1">
 					{filteredSongs?.map((song) => (
 						<>
-							<button type="button" className="py-2 text-left cursor-pointer" key={song.songId}>
+							<button
+								type="button"
+								className="py-2 w-full text-left cursor-pointer"
+								onClick={() => props.onSelect(song)}
+								key={song.songId}
+							>
 								<p>{song.title}</p>
 								<p className="text-xs text-muted-foreground">{song.artist}</p>
 							</button>
