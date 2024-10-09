@@ -1,15 +1,16 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { getSetsList } from "@/server/queries";
+import { getSetsList, getSongsList } from "@/server/queries";
 import type { SelectSet } from "@/server/db/schema";
-import AddNewCard from "@/components/AddNewCard";
+import CreateSetDialog from "./_components/CreateSetDialog";
 
 export default async function Setlists() {
 	const setsList = await getSetsList();
+	const songs = await getSongsList();
 
 	return (
 		<div className="flex flex-wrap gap-4">
-			<AddNewCard link="/add-set" />
+			<CreateSetDialog songs={songs} />
 			{setsList.map((set) => (
 				<SetCard key={set.setId} set={set} />
 			))}
@@ -19,7 +20,7 @@ export default async function Setlists() {
 
 function SetCard(props: { set: SelectSet }) {
 	return (
-		<Link href={`/song/${props.set.setId}`}>
+		<Link href={`/set/${props.set.setId}`}>
 			<Card className="transition duration-75 w-[300px] hover:border-muted-foreground">
 				<CardHeader>
 					<CardTitle>{props.set.title}</CardTitle>

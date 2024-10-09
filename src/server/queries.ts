@@ -3,7 +3,7 @@
 import { db } from "@/server/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { setsTable, songsTable } from "./db/schema";
+import { type InsertSet, setsTable, songSetsTable, songsTable } from "./db/schema";
 import { buildSongFromContentString } from "./utilities";
 import { asc, ilike } from "drizzle-orm";
 
@@ -83,4 +83,34 @@ export async function filterSongs(term: string | undefined) {
 	if (!songsData) throw new Error("No songs found");
 
 	return songsData;
+}
+
+export async function getSet(id: string) {
+	const setData = await db.query.setsTable.findFirst({
+		where: (model, { eq }) => eq(model.setId, id),
+	});
+
+	if (!setData) throw new Error("Set not found.");
+
+	return setData;
+}
+
+export async function insertSet(newSet: InsertSet, songIds: Array<{ songId: string }>) {
+	const returning = await db
+		.insert(setsTable)
+		.values({
+			setId: newSet.setId,
+			title: newSet.title,
+			date: newSet.date,
+		})
+		.onConflictDoUpdate({
+			target: setsTable.setId,
+			set: {
+				title: newSet.title,
+				date: newSet.date,
+			},
+		})
+		.returning({ setId: setsTable.setId });
+
+	await db.insert(songSetsTable).values(songIds.map((obj) => ({ songId: obj.songId, setId: returning[0]?.setId })));
 }
