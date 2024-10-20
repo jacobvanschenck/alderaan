@@ -14,7 +14,7 @@ import {
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import type { SelectSong } from "@/server/db/schema";
 import { insertSet } from "@/server/queries";
 import { zodResolver } from "@hookform/resolvers/zod";

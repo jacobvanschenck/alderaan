@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { parseChordLyricLine } from "@/lib/utils";
+import { parseChordLyricLine } from "@/utils";
 import { type Song, insertSong } from "@/server/queries";
 import { buildSongFromContentString } from "@/server/utilities";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
