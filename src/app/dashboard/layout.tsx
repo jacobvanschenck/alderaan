@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
-export default function DashboardLayout(props: { children: ReactNode; songs: ReactNode; setlists: ReactNode }) {
+export default function DashboardLayout(props: { children: ReactNode }) {
 	const pathname = usePathname();
 
 	return (

@@ -120,13 +120,13 @@ export async function getSetSongs(id: string) {
 
 	if (!setSongsData) throw new Error("No songs for this set");
 
-	const songIds = setSongsData.map((s) => s.songId);
+	const songIds = setSongsData.map((s) => s.songId).filter((id): id is string => id !== null);
 
-	if (!songIds || songIds.length === 0) return [];
+	if (songIds.length === 0) return [];
 
 	const songs = await db.query.songsTable.findMany({
 		where: (model, { inArray }) => inArray(model.songId, songIds),
 	});
 
-	return songs.map((s) => buildSongFromContentString(s.content));
+	return songs.map((s) => buildSongFromContentString(s.content)).filter((song): song is Song => song !== undefined);
 }

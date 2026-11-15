@@ -9,6 +9,7 @@ import { cn } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Search, X } from "lucide-react";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -25,6 +26,8 @@ const formSchema = z.object({
 });
 
 export default function CreateSetForm(props: { songs: Array<SelectSong> }) {
+	const [term, setTerm] = useState("");
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -38,6 +41,8 @@ export default function CreateSetForm(props: { songs: Array<SelectSong> }) {
 		control: form.control,
 		name: "songs",
 	});
+
+	const filteredSongs = props.songs.filter((song) => song.title?.toLowerCase().includes(term.trim().toLowerCase()));
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		await insertSet({ title: values.name, date: values.date }, values.songs);
@@ -113,7 +118,7 @@ export default function CreateSetForm(props: { songs: Array<SelectSong> }) {
 									onChange={(e) => setTerm(e.target.value)}
 								/>
 								<ul className="flex flex-col gap-4">
-									{props.songs.map((song) => (
+									{filteredSongs.map((song) => (
 										<li key={song.songId}>
 											<button
 												type="button"
