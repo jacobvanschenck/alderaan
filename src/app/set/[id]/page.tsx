@@ -1,7 +1,8 @@
-import { getSet } from "@/server/queries";
+import { SetFlow } from "@/components/SetFlow";
+import { getSetSongs } from "@/server/queries";
 
-export default async function SetPage(props: { params: { id: string } }) {
-	const set = await getSet(props.params.id);
+export default async function SetPage({ params }: { params: { id: string } }) {
+	const songs = await getSetSongs(params.id);
 
-	return <p>{set.title}</p>;
+	return <SetFlow songs={songs} />;
 }

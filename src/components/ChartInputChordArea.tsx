@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ChordChart } from "@/components/ChordChart";
 import { Textarea } from "@/components/ui/textarea";
 import { parseChordLyricLine } from "@/utils";
 import { type Song, insertSong } from "@/server/queries";
@@ -62,39 +62,4 @@ function ChartInputArea(props: {
 	);
 }
 
-function ChordChart(props: { song: Song | undefined }) {
-	return (
-		<div className="flex-1">
-			<ScrollArea className="flex flex-col gap-4 rounded-md border max-h-[80dvh] min-h-[80dvh]">
-				<div className="p-4">
-					<div>
-						<p className="text-lg font-semibold">{props.song?.title}</p>
-						<p className="text-xs italic">{props.song?.artist}</p>
-					</div>
-					{props.song?.sections?.map((s, i) => (
-						<div key={i}>
-							<p className="pt-6 font-semibold">{s.title}</p>
-							{s.content?.split("\n").map((l, i) => {
-								const pairs = parseChordLyricLine(l);
-								return (
-									<div key={i} className="flex">
-										{pairs.map((p, index) => (
-											<div className="flex flex-col pt-2" key={`pair-div-${i}-group-${index}`}>
-												<p className="font-bold leading-4" key={`pair-span-1-group-${index}`}>
-													{p?.[0] ?? <span>&nbsp;</span>}
-												</p>
-												<p className="leading-4" key={`pair-span-2-group-${index}`}>
-													{p?.[1] ?? <span>&nbsp;</span>}
-												</p>
-											</div>
-										))}
-									</div>
-								);
-							})}
-						</div>
-					))}
-				</div>
-			</ScrollArea>
-		</div>
-	);
-}
+

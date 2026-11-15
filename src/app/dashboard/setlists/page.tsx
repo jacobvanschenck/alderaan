@@ -1,8 +1,8 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
-import { getSetsList, getSongsList } from "@/server/queries";
+import CreateSetDialog from "@/features/sets/components/CreateSetDialog";
 import type { SelectSet } from "@/server/db/schema";
-import CreateSetDialog from "./_components/CreateSetDialog";
+import { getSetsList, getSongsList } from "@/server/queries";
+import Link from "next/link";
 
 export default async function Setlists() {
 	const setsList = await getSetsList();

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { type InsertSet, setsTable, songSetsTable, songsTable } from "./db/schema";
 import { buildSongFromContentString } from "./utilities";
-import { asc, ilike } from "drizzle-orm";
+import { asc, eq, ilike } from "drizzle-orm";
 
 export type Song = {
 	title?: string | null;
@@ -113,4 +113,20 @@ export async function insertSet(newSet: InsertSet, songIds: Array<{ songId: stri
 		.returning({ setId: setsTable.setId });
 
 	await db.insert(songSetsTable).values(songIds.map((obj) => ({ songId: obj.songId, setId: returning[0]?.setId })));
+}
+
+export async function getSetSongs(id: string) {
+	const setSongsData = await db.select().from(songSetsTable).where(eq(songSetsTable.setId, id));
+
+	if (!setSongsData) throw new Error("No songs for this set");
+
+	const songIds = setSongsData.map((s) => s.songId);
+
+	if (!songIds || songIds.length === 0) return [];
+
+	const songs = await db.query.songsTable.findMany({
+		where: (model, { inArray }) => inArray(model.songId, songIds),
+	});
+
+	return songs.map((s) => buildSongFromContentString(s.content));
 }
