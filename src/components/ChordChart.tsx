@@ -1,6 +1,6 @@
 'use client'
 
-import { type Song } from "@/server/queries";
+import type { Song } from "@/server/queries";
 import { parseChordLyricLine } from "@/utils";
 
 export function ChordChart(props: { song: Song | undefined }) {

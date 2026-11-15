@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { ChordChart } from "@/components/ChordChart";
 import { Textarea } from "@/components/ui/textarea";
-import { parseChordLyricLine } from "@/utils";
 import { type Song, insertSong } from "@/server/queries";
 import { buildSongFromContentString } from "@/server/utilities";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";

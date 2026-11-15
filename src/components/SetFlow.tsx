@@ -4,7 +4,7 @@ import { ChordChart } from "@/components/ChordChart";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import { type Song } from "@/server/queries";
+import type { Song } from "@/server/queries";
 
 export function SetFlow({ songs }: { songs: Array<Song> }) {
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
